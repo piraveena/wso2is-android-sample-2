@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class UserInfoActivity extends AppCompatActivity {
 
     String idToken;
     String accessToken;
+    String clientSecret;
+    ConfigManager configManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +53,24 @@ public class UserInfoActivity extends AppCompatActivity {
 
     }
 
+    public void getConfigManager(Context context){
+        configManager = ConfigManager.getInstance(context);
+    }
+
     @Override
     protected void onStart() {
 
         super.onStart();
+        getConfigManager(this);
         handleAuthorizationResponse(getIntent());
     }
 
     private void handleAuthorizationResponse(Intent intent) {
+        clientSecret =  configManager.getClientSecret();
 
         final AuthorizationResponse response = AuthorizationResponse.fromIntent(intent);
-        String secret = "CShEPt6LUn3reIohVdSuRBE0eH4a";
         Map<String, String> additionalParameters = new HashMap<>();
-        additionalParameters.put("client_secret", secret);
+        additionalParameters.put("client_secret",clientSecret);
 
         AuthorizationException error = AuthorizationException.fromIntent(intent);
         final AuthState authState = new AuthState(response, error);
@@ -73,8 +81,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private void performTokenRequest(AuthorizationService authService, TokenRequest request,
                                      AuthorizationService.TokenResponseCallback callback) {
 
-        String secret = "qrpIF2hh0bKl0Hojt4XTFuczy2oa";
-        ClientAuthentication clientAuthentication = new ClientSecretBasic(secret);
+        ClientAuthentication clientAuthentication = new ClientSecretBasic(clientSecret);
         authService.performTokenRequest(request, clientAuthentication, callback);
     }
 
@@ -92,7 +99,7 @@ public class UserInfoActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             try {
-                URL userInfoEndpoint = new URL("https://10.0.2.2:9443/oauth2/userinfo");
+                URL userInfoEndpoint = new URL(configManager.getUserInfoEndpointUri().toString());
                 HttpURLConnection conn = (HttpURLConnection) userInfoEndpoint.openConnection();
                 conn.setRequestProperty("Authorization", "Bearer " + accessToken);
                 conn.setInstanceFollowRedirects(false);

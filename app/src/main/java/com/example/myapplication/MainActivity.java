@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -48,12 +49,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private final AtomicReference<CustomTabsIntent> customTabIntent = new AtomicReference<>();
+    ConfigManager configManager;
+
+    public void getConfigManager(Context context){
+        configManager = ConfigManager.getInstance(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button btnClick = (Button) findViewById(R.id.button);
+        getConfigManager(this);
         btnClick.setOnClickListener(new AuthorizeListener());
     }
 
@@ -62,18 +69,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             AuthorizationServiceConfiguration serviceConfiguration = new AuthorizationServiceConfiguration(
-                    Uri.parse("https://10.0.2.2:9443/oauth2/authorize") /* auth endpoint */,
-                    Uri.parse("https://10.0.2.2:9443/oauth2/token") /* token endpoint */
-            );
-            String clientId = "tkJfn9a8Yw2kfRfUSIrfvemcVjYa";
-            Uri redirectUri = Uri.parse("com.example.myapplication://oauth");
+                    configManager.getAuthEndpointUri(),  configManager.getTokenEndpointUri());
             AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(
                     serviceConfiguration,
-                    clientId,
+                    configManager.getClientId(),
                     ResponseTypeValues.CODE,
-                    redirectUri
+                    configManager.getRedirectUri()
             );
-            builder.setScopes("openid","profile");
+            builder.setScopes(configManager.getScope());
             AuthorizationRequest request = builder.build();
             AuthorizationService authorizationService = new AuthorizationService(view.getContext());
             CustomTabsIntent.Builder intentBuilder = authorizationService.createCustomTabsIntentBuilder(request.toUri());

@@ -1,0 +1,11 @@
+{
+  "client_id": "tkJfn9a8Yw2kfRfUSIrfvemcVjYa",
+  "client_secret": "qrpIF2hh0bKl0Hojt4XTFuczy2oa",
+  "redirect_uri": "com.example.myapplication://oauth",
+  "authorization_scope": "openid",
+  "authorization_endpoint": "https://10.0.2.2:9443/oauth2/authorize",
+  "end_session_endpoint": "https://10.0.2.2:9443/oidc/logout",
+  "token_endpoint": "https://10.0.2.2:9443/oauth2/token",
+  "userinfo_endpoint": "https://10.0.2.2:9443/oauth2/userinfo",
+  "https_required": false
+}
