@@ -20,24 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/usernameview"
-        android:layout_width="94dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="400dp"
-        android:text="@string/username1"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/emailview"
         android:layout_width="96dp"
         android:layout_height="32dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="408dp"
         android:text="@string/email"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
@@ -67,8 +54,8 @@
         android:id="@+id/emailid"
         android:layout_width="220dp"
         android:layout_height="28dp"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="408dp"
         android:textAlignment="viewStart"
         android:textColor="@color/browser_actions_title_color"
         android:textSize="14sp"
@@ -126,15 +113,6 @@
         android:text="@string/welcome"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="223dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="408dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

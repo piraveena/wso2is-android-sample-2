@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 
@@ -10,24 +9,20 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import net.openid.appauth.AuthState;
-import net.openid.appauth.AuthorizationException;
+
 import net.openid.appauth.AuthorizationRequest;
-import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 
 import org.json.JSONObject;
 
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private static final String AUTHORIZATION_RESPONSE_INTENT = "com.example.myapplication.HANDLE_AUTHORIZATION_RESPONSE";
@@ -59,39 +54,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnClick = (Button) findViewById(R.id.button);
         getConfigManager(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Button btnClick = (Button) findViewById(R.id.button);
         btnClick.setOnClickListener(new AuthorizeListener());
     }
 
     public class AuthorizeListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
-
-            AuthorizationServiceConfiguration serviceConfiguration = new AuthorizationServiceConfiguration(
-                    configManager.getAuthEndpointUri(),  configManager.getTokenEndpointUri());
-            AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(
-                    serviceConfiguration,
-                    configManager.getClientId(),
-                    ResponseTypeValues.CODE,
-                    configManager.getRedirectUri()
-            );
-            builder.setScopes(configManager.getScope());
-            AuthorizationRequest request = builder.build();
-            AuthorizationService authorizationService = new AuthorizationService(view.getContext());
-            CustomTabsIntent.Builder intentBuilder = authorizationService.createCustomTabsIntentBuilder(request.toUri());
-
-            customTabIntent.set(intentBuilder.build());
-
-            Intent completionIntent = new Intent(view.getContext(), UserInfoActivity.class);
-            Intent cancelIntent = new Intent(view.getContext(), MainActivity.class);
-            cancelIntent.putExtra("failed", true);
-            cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            authorizationService.performAuthorizationRequest(request, PendingIntent.getActivity(view.getContext(), 0,
-                    completionIntent, 0), PendingIntent.getActivity(view.getContext(), 0, cancelIntent, 0),
-                    customTabIntent.get());
-
+            doAuthorization(view.getContext());
         }
+    }
+
+    private void doAuthorization(Context context){
+        AuthorizationServiceConfiguration serviceConfiguration = new AuthorizationServiceConfiguration(
+                configManager.getAuthEndpointUri(),  configManager.getTokenEndpointUri());
+        AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(
+                serviceConfiguration,
+                configManager.getClientId(),
+                ResponseTypeValues.CODE,
+                configManager.getRedirectUri()
+        );
+        builder.setScopes(configManager.getScope());
+        AuthorizationRequest request = builder.build();
+        AuthorizationService authorizationService = new AuthorizationService(context);
+        CustomTabsIntent.Builder intentBuilder = authorizationService.createCustomTabsIntentBuilder(request.toUri());
+
+        customTabIntent.set(intentBuilder.build());
+
+        Intent completionIntent = new Intent(context, UserInfoActivity.class);
+        Intent cancelIntent = new Intent(context, LoginActivity.class);
+        cancelIntent.putExtra("failed", true);
+        cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        authorizationService.performAuthorizationRequest(request, PendingIntent.getActivity(context, 0,
+                completionIntent, 0), PendingIntent.getActivity(context, 0, cancelIntent, 0),
+                customTabIntent.get());
+
     }
 }
