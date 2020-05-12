@@ -92,7 +92,7 @@ Example:
  "userinfo_endpoint": "https://10.0.2.2:9443/oauth2/userinfo"
 }
 ```
-#### Add Util claa
+#### Add Util class
 
 1. Add a Util class to initialize the objects.
 
