@@ -22,7 +22,14 @@ Enable following properties:
 
 #### Add the dependency 
 
-Add `WSO2-SDK` dependency in `build.gradle` file.
+1. Clone this project: https://github.com/piraveena/android-sdk.git
+
+2. Build the library in your local maven. Run the following commands. Now the library will be available in your local .m2 cache. 
+    - `./gradlew clean`
+    - `./gradlew assembleRelease`
+    - `./gradlew publishToMavenLocal `
+
+3. Add `WSO2-SDK` dependency in `build.gradle` file.
 
 ```gradle
 dependencies {
