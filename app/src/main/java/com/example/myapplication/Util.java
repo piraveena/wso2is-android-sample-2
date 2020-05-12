@@ -2,13 +2,13 @@ package com.example.myapplication;
 
 import android.content.Context;
 
-import org.oidc.sample.ConfigManager;
-import org.oidc.sample.LoginRequest;
+import org.oidc.agent.ConfigManager;
+import org.oidc.agent.LoginService;
 
 public class Util {
 
     static ConfigManager configManager;
-    static LoginRequest login;
+    static LoginService login;
 
     public static ConfigManager getConfigManager(Context context) {
         if(configManager == null) {
@@ -18,9 +18,9 @@ public class Util {
 
     }
 
-    public static LoginRequest getLogin(){
+    public static LoginService getLogin(){
         if(login == null) {
-            login = new LoginRequest();
+            login = new LoginService();
         }
         return login;
     }

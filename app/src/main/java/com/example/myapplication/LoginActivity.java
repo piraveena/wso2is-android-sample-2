@@ -8,8 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.oidc.sample.ConfigManager;
-import org.oidc.sample.LoginRequest;
+
+import org.oidc.agent.ConfigManager;
+import org.oidc.agent.LoginService;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -20,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String USED_INTENT = "USED_INTENT";
     public static final String LOG_TAG = "AppAuthSample";
     private static Context mContext;
-    LoginRequest login;
+    LoginService login;
     ConfigManager configManager;
 
 

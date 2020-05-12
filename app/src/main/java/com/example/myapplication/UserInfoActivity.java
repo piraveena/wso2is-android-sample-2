@@ -11,16 +11,16 @@ import android.widget.TextView;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 
-import org.oidc.sample.ConfigManager;
-import org.oidc.sample.LoginRequest;
-import org.oidc.sample.OAuth2TokenResponse;
-import org.oidc.sample.TokenRequest;
+import org.oidc.agent.ConfigManager;
+import org.oidc.agent.LoginService;
+import org.oidc.agent.OAuth2TokenResponse;
+import org.oidc.agent.TokenRequest;
 
 
 public class UserInfoActivity extends AppCompatActivity {
 
     ConfigManager configManager;
-    LoginRequest loginRequestObj;
+    LoginService loginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,13 @@ public class UserInfoActivity extends AppCompatActivity {
 
         super.onStart();
         configManager = Util.getConfigManager(this);
-        loginRequestObj = Util.getLogin();
+        loginService = Util.getLogin();
         handleAuthorizationResponse(getIntent());
     }
 
     private void handleAuthorizationResponse(Intent intent) {
 
-        loginRequestObj.handleAuthorization(intent, new TokenRequest.TokenRespCallback() {
+        loginService.handleAuthorization(intent, new TokenRequest.TokenRespCallback() {
             @Override
             public void onTokenRequestCompleted(OAuth2TokenResponse oAuth2TokenResponse) {
                 readUserInfo(oAuth2TokenResponse);
@@ -72,7 +72,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private void singleLogout(Context context, String idToken) {
 
-        loginRequestObj.logout(context, idToken);
+        loginService.logout(context, idToken);
         finish();
     }
 
