@@ -16,13 +16,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoginActivity extends AppCompatActivity {
 
-
-    private static final String AUTHORIZATION_RESPONSE_INTENT = "com.example.myapplication.HANDLE_AUTHORIZATION_RESPONSE";
-    private static final String USED_INTENT = "USED_INTENT";
     public static final String LOG_TAG = "AppAuthSample";
-    private static Context mContext;
-    LoginService login;
-    ConfigManager configManager;
+    LoginService mLoginService;
+    ConfigManager mConfigManager;
 
 
     private final AtomicReference<CustomTabsIntent> customTabIntent = new AtomicReference<>();
@@ -31,14 +27,22 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        login = Util.getLogin();
+        mLoginService = Util.getmLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        configManager = Util.getConfigManager(this);
+        mConfigManager = Util.getConfigManager(this);
         findViewById(R.id.login).setOnClickListener(v ->
                 doAuthorization(this)
         );
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mLoginService != null) {
+            mLoginService.dispose();
+        }
+        super.onDestroy();
     }
 
     /**
@@ -55,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         cancelIntent.putExtra("failed", true);
         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        login.doAuthorization(context, configManager, PendingIntent.getActivity(context, 0,
+        mLoginService.doAuthorization(context, mConfigManager, PendingIntent.getActivity(context, 0,
                 completionIntent, 0),  PendingIntent.getActivity(context, 0, cancelIntent, 0));
     }
 }

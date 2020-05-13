@@ -7,21 +7,21 @@ import org.oidc.agent.LoginService;
 
 public class Util {
 
-    static ConfigManager configManager;
-    static LoginService login;
+    private static ConfigManager mConfigManager;
+    private static LoginService mLogin;
 
     public static ConfigManager getConfigManager(Context context) {
-        if(configManager == null) {
-            configManager = ConfigManager.getInstance(context, R.raw.config);
+        if(mConfigManager == null) {
+            mConfigManager = ConfigManager.getInstance(context, R.raw.config);
         }
-        return configManager;
+        return mConfigManager;
 
     }
 
-    public static LoginService getLogin(){
-        if(login == null) {
-            login = new LoginService();
+    public static LoginService getmLogin(){
+        if(mLogin == null) {
+            mLogin = new LoginService();
         }
-        return login;
+        return mLogin;
     }
 }

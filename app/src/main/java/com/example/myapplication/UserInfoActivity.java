@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 
-import org.oidc.agent.ConfigManager;
 import org.oidc.agent.LoginService;
 import org.oidc.agent.OAuth2TokenResponse;
 import org.oidc.agent.TokenRequest;
@@ -19,8 +19,8 @@ import org.oidc.agent.TokenRequest;
 
 public class UserInfoActivity extends AppCompatActivity {
 
-    ConfigManager configManager;
-    LoginService loginService;
+    private LoginService mLoginService;
+    private static final String LOG_TAG = "UserInfoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +33,13 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        configManager = Util.getConfigManager(this);
-        loginService = Util.getLogin();
+        mLoginService = Util.getmLogin();
         handleAuthorizationResponse(getIntent());
     }
 
     private void handleAuthorizationResponse(Intent intent) {
 
-        loginService.handleAuthorization(intent, new TokenRequest.TokenRespCallback() {
+        mLoginService.handleAuthorization(intent, new TokenRequest.TokenRespCallback() {
             @Override
             public void onTokenRequestCompleted(OAuth2TokenResponse oAuth2TokenResponse) {
                 readUserInfo(oAuth2TokenResponse);
@@ -53,6 +52,7 @@ public class UserInfoActivity extends AppCompatActivity {
         try {
             String idToken = response.idToken;
             String accessToken = response.accessToken;
+            Log.i(LOG_TAG, String.format("Token Response [ Access Token: %s, ID Token: %s ]", response.accessToken, response.idToken));
             JSONParser parser = new JSONParser();
             String[] split = idToken.split("\\.");
             String decodeIDToken = new String(Base64.decode(split[1], Base64.URL_SAFE), "UTF-8");
@@ -72,7 +72,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private void singleLogout(Context context, String idToken) {
 
-        loginService.logout(context, idToken);
+        mLoginService.logout(context, idToken);
         finish();
     }
 
