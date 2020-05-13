@@ -33,7 +33,7 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        mLoginService = Util.getmLogin();
+        mLoginService = LoginService.getInstance(this);
         handleAuthorizationResponse(getIntent());
     }
 
@@ -72,7 +72,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private void singleLogout(Context context, String idToken) {
 
-        mLoginService.logout(context, idToken);
+        mLoginService.logout(context);
         finish();
     }
 

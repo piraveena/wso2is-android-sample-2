@@ -18,23 +18,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "AppAuthSample";
     LoginService mLoginService;
-    ConfigManager mConfigManager;
-
-
     private final AtomicReference<CustomTabsIntent> customTabIntent = new AtomicReference<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mLoginService = Util.getmLogin();
+        mLoginService = LoginService.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mConfigManager = Util.getConfigManager(this);
         findViewById(R.id.login).setOnClickListener(v ->
                 doAuthorization(this)
         );
-
     }
 
     @Override
@@ -59,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         cancelIntent.putExtra("failed", true);
         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        mLoginService.doAuthorization(context, mConfigManager, PendingIntent.getActivity(context, 0,
+        mLoginService.doAuthorization(PendingIntent.getActivity(context, 0,
                 completionIntent, 0),  PendingIntent.getActivity(context, 0, cancelIntent, 0));
     }
 }
