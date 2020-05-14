@@ -61,7 +61,7 @@ public class UserInfoActivity extends AppCompatActivity {
             String email = (String) json.get("email");
             addUiElements(decodeIDToken, userName, email, accessToken);
             findViewById(R.id.logout).setOnClickListener(v ->
-                    singleLogout(this, idToken)
+                    singleLogout(this)
             );
 
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
 
-    private void singleLogout(Context context, String idToken) {
+    private void singleLogout(Context context) {
 
         mLoginService.logout(context);
         finish();

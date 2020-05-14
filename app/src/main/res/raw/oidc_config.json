@@ -1,6 +1,6 @@
 {
-  "client_id": "tkJfn9a8Yw2kfRfUSIrfvemcVjYa",
+  "client_id": "rs5ww91iychg9JN0DJGLMaxG2Lsa",
   "redirect_uri": "example://callback",
   "authorization_scope": "openid",
-  "issuer_uri": "https://10.0.2.2:9443"
+  "discovery_uri": "https://stgcloud.kubesb.com/t/usertest.com/oauth2/oidcdiscovery/.well-known/openid-configuration"
 }

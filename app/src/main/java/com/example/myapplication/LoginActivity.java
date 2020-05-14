@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mLoginService = LoginService.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.login).setOnClickListener(v ->
@@ -49,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void doAuthorization(Context context) {
 
+        mLoginService = LoginService.getInstance(this);
         Intent completionIntent = new Intent(context, UserInfoActivity.class);
         Intent cancelIntent = new Intent(context, LoginActivity.class);
         cancelIntent.putExtra("failed", true);
