@@ -9,8 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
-import org.oidc.agent.ConfigManager;
-import org.oidc.agent.LoginService;
+import org.oidc.agent.sso.LoginService;
 
 import java.util.concurrent.atomic.AtomicReference;
 
