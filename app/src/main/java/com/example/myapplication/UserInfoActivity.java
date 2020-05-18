@@ -9,8 +9,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.JSONObject;
 
 import org.oidc.agent.sso.LoginService;
 import org.oidc.agent.sso.OAuth2TokenResponse;
@@ -64,6 +64,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, mSubject);
                 mIdToken = mOAuth2TokenResponse.idToken;
                 mAccessToken = mOAuth2TokenResponse.accessToken;
+                JSONObject userinfo = userInfoResponse.getUserInfoProperties();
+                Log.i(LOG_TAG, userinfo.toString());
                 Log.d(LOG_TAG, String.format("Token Response [ Access Token: %s, ID Token: %s ]",
                         mOAuth2TokenResponse.accessToken, mOAuth2TokenResponse.idToken));
                 getUIContent();
@@ -74,7 +76,6 @@ public class UserInfoActivity extends AppCompatActivity {
     private void getUIContent() {
 
         try {
-            Log.i(LOG_TAG, String.format("Token Response [ Access Token: %s, ID Token: %s ]", mOAuth2TokenResponse.accessToken, mOAuth2TokenResponse.idToken));
             //JSONParser parser = new JSONParser();
             //String[] split = mIdToken.split("\\.");
             //String decodeIDToken = new String(Base64.decode(split[1], Base64.URL_SAFE), "UTF-8");
