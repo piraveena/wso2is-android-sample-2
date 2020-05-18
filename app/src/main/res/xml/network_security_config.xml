@@ -4,6 +4,7 @@
         <domain includeSubdomains="true">10.0.2.2</domain>
         <trust-anchors>
             <certificates src="@raw/wso2carbon"/>
+            <certificates src="@raw/wso2carbon1"/>
         </trust-anchors>
     </domain-config>
 </network-security-config>

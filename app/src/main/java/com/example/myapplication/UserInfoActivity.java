@@ -64,8 +64,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, mSubject);
                 mIdToken = mOAuth2TokenResponse.idToken;
                 mAccessToken = mOAuth2TokenResponse.accessToken;
-                JSONObject userinfo = userInfoResponse.getUserInfoProperties();
-                Log.i(LOG_TAG, userinfo.toString());
+                JSONObject userInfoProperties = userInfoResponse.getUserInfoProperties();
+                Log.i(LOG_TAG, userInfoProperties.toString());
                 Log.d(LOG_TAG, String.format("Token Response [ Access Token: %s, ID Token: %s ]",
                         mOAuth2TokenResponse.accessToken, mOAuth2TokenResponse.idToken));
                 getUIContent();

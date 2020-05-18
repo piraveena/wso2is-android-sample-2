@@ -39,5 +39,5 @@ dependencies {
 
 }
 android.defaultConfig.manifestPlaceholders = [
-        'appAuthRedirectScheme': 'example'
+        'appAuthRedirectScheme': 'wso2sample'
 ]
